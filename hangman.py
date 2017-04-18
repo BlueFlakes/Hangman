@@ -156,7 +156,6 @@ def guessing_a_word_correctly():
 
 def guessing_a_word_incorrectly():
     print (red + "Wrong word!" + off)
-    lives = lives + 1
     print (hangman_looks[lives])
     if lives > 4:
         print(red + "GAME OVER" + off)
@@ -198,12 +197,10 @@ def guessing_a_letter_correctly():
                 hangman.pop(a1)  # removes '_' where blank space should be
                 hangman.insert(a1, " ")  # inserts blank space in that place
                 c1 = c1 + 1
-                
+
 
 def guessing_a_letter_incorrectly():
     print(red + 'Wrong letter' + off)
-    guesses_number = guesses_number + 1
-    lives = lives + 1
     if lives > 1:
         print(hangman_looks[lives])
         print(darkcyan + "Tip: A capital of %s" % pair2[0] + off)
@@ -231,10 +228,7 @@ while gameplay == 0:
     )
     name = input(blue + "What is your name: " + off)
     today = datetime.date.today()
-    """print (today)
-    print ("HIGHSCORES:")
-    print ("Position | Seconds | Name | Date")
-    print ('\n'.join(highscores), end = "\n")"""
+
     with open('countries_and_capitals.txt') as f:  # read the file
         lines = f.readlines()
     lines = [line.rstrip('\n') for line in open('countries_and_capitals.txt')]  # remove '\n' from the end of a pair
@@ -269,11 +263,15 @@ while gameplay == 0:
                     gameplay = guessing_a_letter_correctly()
 
                 elif guess not in chosen_capital:  # if the letter is incorrect
+                    guesses_number = guesses_number + 1
+                    lives = lives + 1
                     gameplay = guessing_a_letter_incorrectly()
         if len(guess) > 1:   # if you typed a word, instead of a letter
             guesses_number = guesses_number + 1
             if guess == chosen_capital:  #if typed the word is correct
+                #lives = lives + 1
                 gameplay = guessing_a_word_correctly()
                 break
             if guess != chosen_capital:  #if the word is incorrect
+                lives = lives + 1
                 gameplay = guessing_a_word_incorrectly()

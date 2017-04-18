@@ -168,6 +168,38 @@ def guessing_a_word_incorrectly():
             gameplay = 1
             return gameplay
 
+
+def guessing_a_letter_correctly():
+    counter = 0
+    element_pos = []
+    for i in chosen_capital:  # Correct letter replaces the '_' in our word to guess
+        if i == guess:
+            element_pos.append(counter)
+        counter = counter + 1
+    if len(element_pos) > 0:  # it replaces the '_' with typed letter
+        c = 0  # position counter
+        for i in element_pos:
+            a = element_pos[c]
+            hangman.pop(a)
+            hangman.insert(a, guess)
+            c = c + 1  # counter value rises by 1
+        # Removing the blank space:
+    if " " in chosen_capital:  # if there is a blank in the city name
+        counter1 = 0  # counter that checks every single letter in a city name
+        element_pos1 = [] #list that cotains the position of blank space
+        for i in chosen_capital:
+            if i == " ":
+                element_pos1.append(counter1)  # if a letter in a word is a blank space, it's position is added to the list
+            counter1 = counter1 + 1
+        if len(element_pos1) > 0:
+            c1 = 0
+            for i in element_pos1:
+                a1 = element_pos1[c1]
+                hangman.pop(a1)  # removes '_' where blank space should be
+                hangman.insert(a1, " ")  # inserts blank space in that place
+                c1 = c1 + 1
+                
+
 def guessing_a_letter_incorrectly():
     print(red + 'Wrong letter' + off)
     guesses_number = guesses_number + 1
@@ -234,34 +266,7 @@ while gameplay == 0:
                 guesses_number = guesses_number + 1
                 used_letters.append(guess)  # Adding a letter to the list of used letters
                 if guess in chosen_capital:  # If the letter is correct
-                    counter = 0
-                    element_pos = []
-                    for i in chosen_capital:  # Correct letter replaces the '_' in our word to guess
-                        if i == guess:
-                            element_pos.append(counter)
-                        counter = counter + 1
-                    if len(element_pos) > 0:  # it replaces the '_' with typed letter
-                        c = 0  # position counter
-                        for i in element_pos:
-                            a = element_pos[c]
-                            hangman.pop(a)
-                            hangman.insert(a, guess)
-                            c = c + 1  # counter value rises by 1
-                        # Removing the blank space:
-                    if " " in chosen_capital:  # if there is a blank in the city name
-                        counter1 = 0  # counter that checks every single letter in a city name
-                        element_pos1 = [] #list that cotains the position of blank space
-                        for i in chosen_capital:
-                            if i == " ":
-                                element_pos1.append(counter1)  # if a letter in a word is a blank space, it's position is added to the list
-                            counter1 = counter1 + 1
-                        if len(element_pos1) > 0:
-                            c1 = 0
-                            for i in element_pos1:
-                                a1 = element_pos1[c1]
-                                hangman.pop(a1)  # removes '_' where blank space should be
-                                hangman.insert(a1, " ")  # inserts blank space in that place
-                                c1 = c1 + 1
+                    gameplay = guessing_a_letter_correctly()
 
                 elif guess not in chosen_capital:  # if the letter is incorrect
                     gameplay = guessing_a_letter_incorrectly()

@@ -154,6 +154,20 @@ def guessing_a_word_correctly():
         return gameplay
 
 
+def guessing_a_word_incorrectly():
+    print (red + "Wrong word!" + off)
+    lives = lives + 1
+    print (hangman_looks[lives])
+    if lives > 4:
+        print(red + "GAME OVER" + off)
+        print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
+        answer = ""
+        while answer not in ["Y", "N"]:
+            answer = input('\n' + "Would you like to play again? (Y/N): ").upper()
+        if answer == "N":
+            gameplay = 1
+            return gameplay
+
 gameplay = 0
 records = 0
 while gameplay == 0:
@@ -188,10 +202,8 @@ while gameplay == 0:
         print(yellow + "Your capital is: " + off + darkblue + ' '.join(hangman) + off)
         hangman2 = (''.join(hangman))
         if hangman2 == chosen_capital: #winning while the whole word is made out of collected letters
-
             gameplay = guessing_a_word_correctly()
             break
-
         print (darkwhite + "Used letters: " + (" ".join(used_letters)) + off)
         guess = input(darkblue + "Guess a letter or a whole word: " + off).upper()  # Get a letter or a word
         if guess in used_letters:  # Checking if letter was used before
@@ -253,19 +265,7 @@ while gameplay == 0:
         if len(guess) > 1:   # if you typed a word, instead of a letter
             guesses_number = guesses_number + 1
             if guess == chosen_capital:  #if typed the word is correct
-
                 gameplay = guessing_a_word_correctly()
                 break
             if guess != chosen_capital:  #if the word is incorrect
-                print (red + "Wrong word!" + off)
-                lives = lives + 1
-                print (hangman_looks[lives])
-                if lives > 4:
-                    print(red + "GAME OVER" + off)
-                    print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
-                    answer = ""
-                    while answer not in ["Y", "N"]:
-                        answer = input('\n' + "Would you like to play again? (Y/N): ").upper()
-                    if answer == "N":
-                        gameplay = 1
-                    break
+                gameplay = guessing_a_word_incorrectly()

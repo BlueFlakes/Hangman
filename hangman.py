@@ -112,6 +112,8 @@ hangman_looks = [
 
 
 def sorting_the_highscore():
+    global highscores
+    global repair_sortowanie
     for i in range(len(repair_sortowanie)):
         for q in range(len(repair_sortowanie)):
             if repair_sortowanie[q] > repair_sortowanie[i]:
@@ -123,6 +125,29 @@ def sorting_the_highscore():
                 highscores[q] = sort_second_list
     highscores = highscores[:10]
     repair_sortowanie = repair_sortowanie[:10]
+
+
+def guessing_a_word_correctly():
+    print("YOU WIN, the capital was " + darkmagenta + "%s" % chosen_capital + off)
+    print("It's the capital of " + darkyellow + "%s" % pair2[0] + off)
+    game_time = ("%.2f" % (time.time() - start_time))
+    print("It took you %s seconds" % game_time)  # showing the time
+    print("It took you %s guesses" % guesses_number)
+
+#               ----------------------------------------------------------------
+    highscores.append("")
+    highscores[len(highscores) - 1] = "%s seconds" % game_time + " | " + "Guesses: #%s" % guesses_number + " | " + name + " | " + str(today)
+    repair_sortowanie.append(float(game_time))
+    if len(highscores) > 1: # sort the elements of highscores list then sort second list in the way of first
+        sorting_the_highscore()
+    print(red + "\n" + "HIGHSCORES:" + off)
+    print("Position | Seconds | Guesses | Name | Date" + '\n')
+    print('\n'.join(highscores), end = "\n")
+    answer = ""
+    while answer not in ["Y","N"]:
+        answer = input('\n' + "Would you like to play again? (Y/N)").upper()
+    if answer == "N":
+        gameplay = 1
 
 
 gameplay = 0
@@ -240,27 +265,7 @@ while gameplay == 0:
         if len(guess) > 1:   # if you typed a word, instead of a letter
             guesses_number = guesses_number + 1
             if guess == chosen_capital:  #if typed the word is correct
-                print("YOU WIN, the capital was " + darkmagenta + "%s" % chosen_capital + off)
-                print("It's the capital of " + darkyellow + "%s" % pair2[0] + off)
-                game_time = ("%.2f" % (time.time() - start_time))
-                print("It took you %s seconds" % game_time)  # showing the time
-                print("It took you %s guesses" % guesses_number)
-
-#               ----------------------------------------------------------------
-                highscores.append("")
-                highscores[len(highscores) - 1] = "%s seconds" % game_time + " | " + "Guesses: #%s" % guesses_number + " | " + name + " | " + str(today)
-                repair_sortowanie.append(float(game_time))
-                if len(highscores) > 1: # sort the elements of highscores list then sort second list in the way of first
-                    sorting_the_highscore()
-                print(red + "\n" + "HIGHSCORES:" + off)
-                print("Position | Seconds | Guesses | Name | Date" + '\n')
-                print('\n'.join(highscores), end = "\n")
-                answer = ""
-                while answer not in ["Y","N"]:
-                    answer = input('\n' + "Would you like to play again? (Y/N)").upper()
-                if answer == "N":
-                    gameplay = 1
-                break
+                guessing_a_word_correctly()
             if guess != chosen_capital:  #if the word is incorrect
                 print (red + "Wrong word!" + off)
                 lives = lives + 1

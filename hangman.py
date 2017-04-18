@@ -134,16 +134,6 @@ def guessing_a_word_correctly():
     print("It took you %s seconds" % game_time)  # showing the time
     print("It took you %s guesses" % guesses_number)
 
-
-def print_game_over():
-    print(red + "GAME OVER" + off)
-    print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
-    answer = ""
-    while answer not in ["Y", "N"]:
-        answer = input('\n' + "Would you like to play again? (Y/N): ").upper()
-    if answer == "N":
-        gameplay = 1
-
 #               ----------------------------------------------------------------
     highscores.append("")
     highscores[len(highscores) - 1] = "%s seconds" % game_time + " | " + "Guesses: #%s" % guesses_number + " | " + name + " | " + str(today)
@@ -158,6 +148,10 @@ def print_game_over():
         answer = input('\n' + "Would you like to play again? (Y/N)").upper()
     if answer == "N":
         gameplay = 1
+        return gameplay
+    else:
+        gameplay = 0
+        return gameplay
 
 
 gameplay = 0
@@ -186,6 +180,7 @@ while gameplay == 0:
     chosen_capital = pair2[2]
     start_time = time.time()  # starting the clock
     lives = -1
+    print(chosen_capital)
     for i in range(len(chosen_capital)):
         hangman.append("_ ")
 
@@ -193,27 +188,10 @@ while gameplay == 0:
         print(yellow + "Your capital is: " + off + darkblue + ' '.join(hangman) + off)
         hangman2 = (''.join(hangman))
         if hangman2 == chosen_capital: #winning while the whole word is made out of collected letters
-            print("YOU WIN, the capital was " + darkmagenta + "%s" % chosen_capital + off)
-            print("It's the capital of " + darkyellow + "%s" % pair2[0] + off)
-            game_time = ("%.2f" % (time.time() - start_time))
-            print("It took you %s seconds" % game_time)  # showing the time
-            print("It took you %s guesses" % guesses_number)
 
-#           --------------------------------------------------------------------
-            highscores.append("")
-            highscores[len(highscores) - 1] = "%s seconds" % game_time + " | " + "Guesses: #%s" % guesses_number + " | " + name + " | " + str(today)
-            repair_sortowanie.append(float(game_time))
-            if len(highscores) > 1:  # sort the elements of highscores list then sort second list in the way of first
-                sorting_the_highscore()
-            print(red + "\n" + "HIGHSCORES:" + off)
-            print("Position | Seconds | Guesses | Name | Date" + '\n')
-            print('\n'.join(highscores), end = "\n")
-            answer = ""
-            while answer not in ["Y","N"]:
-                answer = input('\n' + "Would you like to play again? (Y/N)").upper()
-            if answer == "N":
-                gameplay = 1
+            gameplay = guessing_a_word_correctly()
             break
+
         print (darkwhite + "Used letters: " + (" ".join(used_letters)) + off)
         guess = input(darkblue + "Guess a letter or a whole word: " + off).upper()  # Get a letter or a word
         if guess in used_letters:  # Checking if letter was used before
@@ -275,10 +253,19 @@ while gameplay == 0:
         if len(guess) > 1:   # if you typed a word, instead of a letter
             guesses_number = guesses_number + 1
             if guess == chosen_capital:  #if typed the word is correct
-                guessing_a_word_correctly()
+
+                gameplay = guessing_a_word_correctly()
+                break
             if guess != chosen_capital:  #if the word is incorrect
                 print (red + "Wrong word!" + off)
                 lives = lives + 1
                 print (hangman_looks[lives])
                 if lives > 4:
-                    print_game_over()
+                    print(red + "GAME OVER" + off)
+                    print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
+                    answer = ""
+                    while answer not in ["Y", "N"]:
+                        answer = input('\n' + "Would you like to play again? (Y/N): ").upper()
+                    if answer == "N":
+                        gameplay = 1
+                    break

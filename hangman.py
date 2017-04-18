@@ -134,6 +134,16 @@ def guessing_a_word_correctly():
     print("It took you %s seconds" % game_time)  # showing the time
     print("It took you %s guesses" % guesses_number)
 
+
+def print_game_over():
+    print(red + "GAME OVER" + off)
+    print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
+    answer = ""
+    while answer not in ["Y", "N"]:
+        answer = input('\n' + "Would you like to play again? (Y/N): ").upper()
+    if answer == "N":
+        gameplay = 1
+
 #               ----------------------------------------------------------------
     highscores.append("")
     highscores[len(highscores) - 1] = "%s seconds" % game_time + " | " + "Guesses: #%s" % guesses_number + " | " + name + " | " + str(today)
@@ -271,11 +281,4 @@ while gameplay == 0:
                 lives = lives + 1
                 print (hangman_looks[lives])
                 if lives > 4:
-                    print(red + "GAME OVER" + off)
-                    print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
-                    answer = ""
-                    while answer not in ["Y", "N"]:
-                        answer = input('\n' + "Would you like to play again? (Y/N): ").upper()
-                    if answer == "N":
-                        gameplay = 1
-                    break
+                    print_game_over()

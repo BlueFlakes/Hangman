@@ -168,6 +168,25 @@ def guessing_a_word_incorrectly():
             gameplay = 1
             return gameplay
 
+def guessing_a_letter_incorrectly():
+    print(red + 'Wrong letter' + off)
+    guesses_number = guesses_number + 1
+    lives = lives + 1
+    if lives > 1:
+        print(hangman_looks[lives])
+        print(darkcyan + "Tip: A capital of %s" % pair2[0] + off)
+    else:
+        print(hangman_looks[lives])
+    if lives > 4:
+        print(red + "GAME OVER" + off)
+        print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
+        answer = ""
+        while answer not in ["Y","N"]:
+            answer = input('\n' + "Would you like to play again? (Y/N)").upper()
+        if answer == "N":
+            gameplay = 1
+            return gameplay
+
 gameplay = 0
 records = 0
 while gameplay == 0:
@@ -245,23 +264,7 @@ while gameplay == 0:
                                 c1 = c1 + 1
 
                 elif guess not in chosen_capital:  # if the letter is incorrect
-                    print(red + 'Wrong letter' + off)
-                    guesses_number = guesses_number + 1
-                    lives = lives + 1
-                    if lives > 1:
-                        print(hangman_looks[lives])
-                        print(darkcyan + "Tip: A capital of %s" % pair2[0] + off)
-                    else:
-                        print(hangman_looks[lives])
-                    if lives > 4:
-                        print(red + "GAME OVER" + off)
-                        print(darkgreen + "The correct word was" + off, red + "%s" % chosen_capital + off)
-                        answer = ""
-                        while answer not in ["Y","N"]:
-                            answer = input('\n' + "Would you like to play again? (Y/N)").upper()
-                        if answer == "N":
-                            gameplay = 1
-                        break
+                    gameplay = guessing_a_letter_incorrectly()
         if len(guess) > 1:   # if you typed a word, instead of a letter
             guesses_number = guesses_number + 1
             if guess == chosen_capital:  #if typed the word is correct

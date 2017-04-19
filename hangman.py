@@ -35,6 +35,7 @@ darkred = "\033[0;31m"
 
 repair_sortowanie = []
 highscores = []
+today = datetime.date.today()
 hangman = []
 hangman_looks = [
 """
@@ -109,6 +110,20 @@ hangman_looks = [
 """,
 
 ]
+
+with open('countries_and_capitals.txt') as f:  # read the file
+    lines = f.readlines()
+lines = [line.rstrip('\n') for line in open('countries_and_capitals.txt')]  # remove '\n' from the end of a pair
+pair = random.choice(lines).upper()  # choose random pair from the list
+pair2 = pair.partition(" | ")[0:5]  # splits the pair into: [capital, separator, country]
+hangman = []
+used_letters = []
+chosen_capital = pair2[2]
+start_time = time.time()  # starting the clock
+
+print(chosen_capital)
+for i in range(len(chosen_capital)):
+    hangman.append("_ ")
 
 
 def sorting_the_highscore(length_of_game_time, output):
@@ -217,62 +232,50 @@ def guessing_a_letter_incorrectly():
             gameplay = 1
             return gameplay
 
-gameplay = 0
-records = 0
-while gameplay == 0:
-    print(darkred + (hangman_looks[6]) + off)
-    guesses_number = 0
-    print(
-        "Welcome to the great HANGMAN game.\
-        \nAll you have to do is to guess a name of random world capital city.\
-        \nGood luck!\n"
-    )
-    name = input(blue + "What is your name: " + off)
-    today = datetime.date.today()
 
-    with open('countries_and_capitals.txt') as f:  # read the file
-        lines = f.readlines()
-    lines = [line.rstrip('\n') for line in open('countries_and_capitals.txt')]  # remove '\n' from the end of a pair
-    pair = random.choice(lines).upper()  # choose random pair from the list
-    pair2 = pair.partition(" | ")[0:5]  # splits the pair into: [capital, separator, country]
-    hangman = []
-    used_letters = []
-    chosen_capital = pair2[2]
-    start_time = time.time()  # starting the clock
+def main():
     lives = -1
-    print(chosen_capital)
-    for i in range(len(chosen_capital)):
-        hangman.append("_ ")
-
-    while lives < 5:
-        print(yellow + "Your capital is: " + off + darkblue + ' '.join(hangman) + off)
-        hangman2 = (''.join(hangman))
-        if hangman2 == chosen_capital: #winning while the whole word is made out of collected letters
-            gameplay = guessing_a_word_correctly()
-            break
-        print (darkwhite + "Used letters: " + (" ".join(used_letters)) + off)
-        guess = input(darkblue + "Guess a letter or a whole word: " + off).upper()  # Get a letter or a word
-        if guess in used_letters:  # Checking if letter was used before
-            print ("You've already used this letter!")
-            guesses_number = guesses_number + 1
-            pass
-        if len(guess) == 1:  # guessing a letter
-            if guess not in used_letters:
-                guesses_number = guesses_number + 1
-                used_letters.append(guess)  # Adding a letter to the list of used letters
-                if guess in chosen_capital:  # If the letter is correct
-                    gameplay = guessing_a_letter_correctly()
-
-                elif guess not in chosen_capital:  # if the letter is incorrect
-                    guesses_number = guesses_number + 1
-                    lives = lives + 1
-                    gameplay = guessing_a_letter_incorrectly()
-        if len(guess) > 1:   # if you typed a word, instead of a letter
-            guesses_number = guesses_number + 1
-            if guess == chosen_capital:  #if typed the word is correct
-                #lives = lives + 1
+    gameplay = 0
+    records = 0
+    while gameplay == 0:
+        print(darkred + (hangman_looks[6]) + off)
+        guesses_number = 0
+        print(
+            "Welcome to the great HANGMAN game.\
+            \nAll you have to do is to guess a name of random world capital city.\
+            \nGood luck!\n"
+        )
+        name = input(blue + "What is your name: " + off)
+        while lives < 5:
+            print(yellow + "Your capital is: " + off + darkblue + ' '.join(hangman) + off)
+            hangman2 = (''.join(hangman))
+            if hangman2 == chosen_capital: #winning while the whole word is made out of collected letters
                 gameplay = guessing_a_word_correctly()
                 break
-            if guess != chosen_capital:  #if the word is incorrect
-                lives = lives + 1
-                gameplay = guessing_a_word_incorrectly()
+            print (darkwhite + "Used letters: " + (" ".join(used_letters)) + off)
+            guess = input(darkblue + "Guess a letter or a whole word: " + off).upper()  # Get a letter or a word
+            if guess in used_letters:  # Checking if letter was used before
+                print ("You've already used this letter!")
+                guesses_number = guesses_number + 1
+                pass
+            if len(guess) == 1:  # guessing a letter
+                if guess not in used_letters:
+                    guesses_number = guesses_number + 1
+                    used_letters.append(guess)  # Adding a letter to the list of used letters
+                    if guess in chosen_capital:  # If the letter is correct
+                        gameplay = guessing_a_letter_correctly()
+
+                    elif guess not in chosen_capital:  # if the letter is incorrect
+                        guesses_number = guesses_number + 1
+                        lives = lives + 1
+                        gameplay = guessing_a_letter_incorrectly()
+            if len(guess) > 1:   # if you typed a word, instead of a letter
+                guesses_number = guesses_number + 1
+                if guess == chosen_capital:  #if typed the word is correct
+                    #lives = lives + 1
+                    gameplay = guessing_a_word_correctly()
+                    break
+                if guess != chosen_capital:  #if the word is incorrect
+                    lives = lives + 1
+                    gameplay = guessing_a_word_incorrectly()
+main()

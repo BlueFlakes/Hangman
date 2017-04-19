@@ -184,7 +184,7 @@ def guessing_a_word_incorrectly():
             return gameplay
 
 
-def guessing_a_letter_correctly():
+def guessing_a_letter_correctly(guess):
     counter = 0
     element_pos = []
     for i in chosen_capital:  # Correct letter replaces the '_' in our word to guess
@@ -263,7 +263,7 @@ def main():
                     guesses_number = guesses_number + 1
                     used_letters.append(guess)  # Adding a letter to the list of used letters
                     if guess in chosen_capital:  # If the letter is correct
-                        gameplay = guessing_a_letter_correctly()
+                        gameplay = guessing_a_letter_correctly(guess)
 
                     elif guess not in chosen_capital:  # if the letter is incorrect
                         guesses_number = guesses_number + 1

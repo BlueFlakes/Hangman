@@ -111,9 +111,10 @@ hangman_looks = [
 ]
 
 
-def sorting_the_highscore():
-    global highscores
-    global repair_sortowanie
+def sorting_the_highscore(length_of_game_time, output):
+    highscores = output
+    repair_sortowanie = length_of_game_time
+
     for i in range(len(repair_sortowanie)):
         for q in range(len(repair_sortowanie)):
             if repair_sortowanie[q] > repair_sortowanie[i]:
@@ -139,7 +140,7 @@ def guessing_a_word_correctly():
     highscores[len(highscores) - 1] = "%s seconds" % game_time + " | " + "Guesses: #%s" % guesses_number + " | " + name + " | " + str(today)
     repair_sortowanie.append(float(game_time))
     if len(highscores) > 1: # sort the elements of highscores list then sort second list in the way of first
-        sorting_the_highscore()
+        sorting_the_highscore(repair_sortowanie, highscores )
     print(red + "\n" + "HIGHSCORES:" + off)
     print("Position | Seconds | Guesses | Name | Date" + '\n')
     print('\n'.join(highscores), end = "\n")

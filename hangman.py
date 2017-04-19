@@ -113,6 +113,9 @@ hangman_looks = [
 
 
 def download_data_from_file():
+    """ it opens a .csv file with countries and capitals,
+    removing \n from the end of every line
+    """
     with open('countries_and_capitals.txt') as f:  # read the file
         lines = f.readlines()
     # remove '\n' from the end of a pair
@@ -145,6 +148,11 @@ def sorting_the_highscore(length_of_game_time, output):
 def guessing_a_word_correctly(
                             guesses_number, name,
                             chosen_capital, pair2, start_time):
+    """ if user guesses a whole word and his
+        guess is correct, then his attemptt is
+        saved to highscore, highscore is being sorted
+        then user is asked if he'd like to play again
+    """
     print("YOU WIN, the capital was " + darkmagenta
           + "%s" % chosen_capital + off)
     print("It's the capital of " + darkyellow + "%s" % pair2[0] + off)
@@ -176,6 +184,13 @@ def guessing_a_word_correctly(
 
 
 def guessing_a_word_incorrectly(lives, chosen_capital):
+    """ if the user guesses a whole word incorrectly,
+        then it's checked if he has any more lives,
+        if he does, then he sees another hangman
+        visual presentation, otherwise he looses
+        the game and is asked if he'd like
+        to play again
+    """
     print(red + "Wrong word!" + off)
     print(hangman_looks[lives])
     if lives > 4:
@@ -195,6 +210,10 @@ def guessing_a_word_incorrectly(lives, chosen_capital):
 
 
 def guessing_a_letter_correctly(guess, lives, chosen_capital, hangman):
+    """if user guesses a letter correctly '_' is removed,
+        and correct letter is added on its place.
+        Function also removes every blank spaces in the city name
+    """
     counter = 0
     element_pos = []
     # Correct letter replaces the '_' in our word to guess
@@ -229,6 +248,12 @@ def guessing_a_letter_correctly(guess, lives, chosen_capital, hangman):
 
 
 def guessing_a_letter_incorrectly(lives, pair2, chosen_capital):
+    """ if user has any more lives, but less than 3,
+        he gets a tip about country name and sees a proper
+        image of hanging man.
+        Otherwise he looses, game's over and is asked
+        if'd like to play again
+    """
     print(red + 'Wrong letter' + off)
     if lives > 1:
         print(hangman_looks[lives])
